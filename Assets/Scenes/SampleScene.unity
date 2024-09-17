@@ -2788,13 +2788,33 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 5095597241384475440, guid: d72c302df2acd594fa738c1dd3298c38, type: 3}
+      propertyPath: moveSpeed
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5095597241384475440, guid: d72c302df2acd594fa738c1dd3298c38, type: 3}
+      propertyPath: bufferTime
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5095597241384475440, guid: d72c302df2acd594fa738c1dd3298c38, type: 3}
       propertyPath: groundTileMap
+      value: 
+      objectReference: {fileID: 664141251}
+    - target: {fileID: 5095597241384475440, guid: d72c302df2acd594fa738c1dd3298c38, type: 3}
+      propertyPath: groundTilemap
       value: 
       objectReference: {fileID: 664141251}
     - target: {fileID: 5095597241384475440, guid: d72c302df2acd594fa738c1dd3298c38, type: 3}
       propertyPath: collisionTileMap
       value: 
       objectReference: {fileID: 1996958610}
+    - target: {fileID: 5095597241384475440, guid: d72c302df2acd594fa738c1dd3298c38, type: 3}
+      propertyPath: collisionTilemap
+      value: 
+      objectReference: {fileID: 1996958610}
+    - target: {fileID: 5095597241384475440, guid: d72c302df2acd594fa738c1dd3298c38, type: 3}
+      propertyPath: bufferCooldownTime
+      value: 0.3
+      objectReference: {fileID: 0}
     - target: {fileID: 5959611224726945421, guid: d72c302df2acd594fa738c1dd3298c38, type: 3}
       propertyPath: m_Name
       value: Player

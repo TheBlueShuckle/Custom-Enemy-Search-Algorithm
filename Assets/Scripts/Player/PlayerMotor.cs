@@ -10,13 +10,22 @@ public class PlayerMotor : MonoBehaviour
     [SerializeField]
     private float moveSpeed;
 
+    [SerializeField]
+    private float bufferTime;
+
+    [SerializeField]
+    private float bufferCooldownTime;
+
     private Cooldown movementCooldown;
+    private MovementBuffer movementBuffer;
+
+    private Cooldown bufferCooldown;
 
     [SerializeField]
-    private Tilemap groundTileMap;
+    private Tilemap groundTilemap;
 
     [SerializeField]
-    private Tilemap collisionTileMap;
+    private Tilemap collisionTilemap;
 
     //Temporary variables
     private Vector2 lastInput;
@@ -25,6 +34,16 @@ public class PlayerMotor : MonoBehaviour
     private void Start()
     {
         movementCooldown = new Cooldown(moveSpeed);
+        bufferCooldown = new Cooldown(bufferCooldownTime);
+    }
+
+    private void Update()
+    {
+        if (movementBuffer != null && !movementBuffer.BufferHasTimeOut && !movementCooldown.IsCoolingDown)
+        {
+            ProcessMove(movementBuffer.GetBuffer());
+            movementBuffer = null;
+        }
     }
 
     public void ProcessMove(Vector2 input)
@@ -35,6 +54,11 @@ public class PlayerMotor : MonoBehaviour
 
         if (movementCooldown.IsCoolingDown)
         {
+            if (!bufferCooldown.IsCoolingDown && input != Vector2.zero)
+            {
+                movementBuffer = new MovementBuffer(input, bufferTime);
+            } 
+
             return;
         }
 
@@ -46,6 +70,7 @@ public class PlayerMotor : MonoBehaviour
 
         lastInput = input;
         lastMove = forcedInput;
+        bufferCooldown.StartCooldown();
     }
 
     private Vector2 ForceOrthogonalMovement(Vector2 input)
@@ -82,9 +107,9 @@ public class PlayerMotor : MonoBehaviour
 
     private bool CanMove(Vector2 direction)
     {
-        Vector3Int gridPosition = groundTileMap.WorldToCell(transform.position + (Vector3)direction);
+        Vector3Int gridPosition = groundTilemap.WorldToCell(transform.position + (Vector3)direction);
 
-        if (!groundTileMap.HasTile(gridPosition) || collisionTileMap.HasTile(gridPosition))
+        if (!groundTilemap.HasTile(gridPosition) || collisionTilemap.HasTile(gridPosition))
         {
             return false;
         }
