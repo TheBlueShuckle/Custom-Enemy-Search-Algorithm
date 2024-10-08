@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEngine.UIElements.Experimental;
@@ -10,16 +11,7 @@ public class PlayerMotor : MonoBehaviour
     [SerializeField]
     private float moveSpeed;
 
-    [SerializeField]
-    private float bufferTime;
-
-    [SerializeField]
-    private float bufferCooldownTime;
-
     private Cooldown movementCooldown;
-    private MovementBuffer movementBuffer;
-
-    private Cooldown bufferCooldown;
 
     [SerializeField]
     private Tilemap groundTilemap;
@@ -27,22 +19,36 @@ public class PlayerMotor : MonoBehaviour
     [SerializeField]
     private Tilemap collisionTilemap;
 
+    private AnimationController animationController;
+
     //Temporary variables
     private Vector2 lastInput;
     private Vector2 lastMove;
 
+    private Vector2 targetPosition;
+    private Vector2 startPosition;
+    private float lerpTime = 0;
+
     private void Start()
     {
         movementCooldown = new Cooldown(moveSpeed);
-        bufferCooldown = new Cooldown(bufferCooldownTime);
+        animationController = GetComponent<AnimationController>();
+
+        targetPosition = transform.position;
     }
 
     private void Update()
     {
-        if (movementBuffer != null && !movementBuffer.BufferHasTimeOut && !movementCooldown.IsCoolingDown)
+        if (movementCooldown.IsCoolingDown)
         {
-            ProcessMove(movementBuffer.GetBuffer());
-            movementBuffer = null;
+            transform.position = Vector2.Lerp(startPosition, targetPosition, lerpTime / moveSpeed);
+            lerpTime += Time.deltaTime;
+        }
+
+        else
+        {
+            lerpTime = 0;
+            transform.position = targetPosition;
         }
     }
 
@@ -54,23 +60,27 @@ public class PlayerMotor : MonoBehaviour
 
         if (movementCooldown.IsCoolingDown)
         {
-            if (!bufferCooldown.IsCoolingDown && input != Vector2.zero)
-            {
-                movementBuffer = new MovementBuffer(input, bufferTime);
-            } 
-
             return;
         }
 
-        if (CanMove(forcedInput))
+        if (CanMove(forcedInput) && input != Vector2.zero)
         {
-            transform.position += (Vector3)forcedInput;
+            startPosition = transform.position;
+            targetPosition = transform.position + (Vector3)forcedInput;
             movementCooldown.StartCooldown();
         }
 
+        animationController.UpdateSprite(forcedInput);
+
         lastInput = input;
         lastMove = forcedInput;
-        bufferCooldown.StartCooldown();
+    }
+
+    public void ProcessTurn(Vector2 input)
+    {
+        Vector2 forcedInput = ForceOrthogonalMovement(input);
+
+        animationController.UpdateSprite(forcedInput);
     }
 
     private Vector2 ForceOrthogonalMovement(Vector2 input)
