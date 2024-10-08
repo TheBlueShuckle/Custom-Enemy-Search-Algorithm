@@ -18,16 +18,20 @@ public class InputHandler : MonoBehaviour
 
         playerControls.OnFoot.Move.started += ctx =>
         {
-            if (ctx.interaction is HoldInteraction)
+            if (ctx.interaction is TapInteraction)
             {
-                moveHeld = true;
-            }
-
-            else if (ctx.interaction is PressInteraction)
-            {
+                print("YEs");
                 moveHeld = false;
                 motor.ProcessTurn(playerControls.OnFoot.Move.ReadValue<Vector2>());
             }
+
+
+            else
+            {
+                print("wtf");
+                moveHeld = true;
+            }
+
         };
     }
 
