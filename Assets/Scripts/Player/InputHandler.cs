@@ -20,18 +20,14 @@ public class InputHandler : MonoBehaviour
         {
             if (ctx.interaction is TapInteraction)
             {
-                print("YEs");
                 moveHeld = false;
                 motor.ProcessTurn(playerControls.OnFoot.Move.ReadValue<Vector2>());
             }
 
-
             else
             {
-                print("wtf");
                 moveHeld = true;
             }
-
         };
     }
 
