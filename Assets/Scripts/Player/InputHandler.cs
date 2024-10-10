@@ -21,7 +21,7 @@ public class InputHandler : MonoBehaviour
             if (ctx.interaction is TapInteraction)
             {
                 moveHeld = false;
-                motor.ProcessTurn(playerControls.OnFoot.Move.ReadValue<Vector2>());
+                motor.ProcessTapInput(playerControls.OnFoot.Move.ReadValue<Vector2>());
             }
 
             else
@@ -35,7 +35,7 @@ public class InputHandler : MonoBehaviour
     {
         if (moveHeld)
         {
-            motor.ProcessMove(playerControls.OnFoot.Move.ReadValue<Vector2>());
+            motor.ProcessHeldInput(playerControls.OnFoot.Move.ReadValue<Vector2>());
         }
     }
 

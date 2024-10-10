@@ -5,6 +5,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEngine.UIElements.Experimental;
+using UnityEngine.Windows;
 
 public class PlayerMotor : MonoBehaviour
 {
@@ -52,7 +53,19 @@ public class PlayerMotor : MonoBehaviour
         }
     }
 
-    public void ProcessMove(Vector2 input)
+    private void Move(Vector2 forcedInput)
+    {
+        if (!CanMove(forcedInput))
+        {
+            return;
+        }
+
+        startPosition = transform.position;
+        targetPosition = transform.position + (Vector3)forcedInput;
+        movementCooldown.StartCooldown();
+    }
+
+    public void ProcessHeldInput(Vector2 input)
     {
         Vector2 forcedInput;
 
@@ -63,11 +76,9 @@ public class PlayerMotor : MonoBehaviour
             return;
         }
 
-        if (CanMove(forcedInput) && input != Vector2.zero)
+        if (input != Vector2.zero)
         {
-            startPosition = transform.position;
-            targetPosition = transform.position + (Vector3)forcedInput;
-            movementCooldown.StartCooldown();
+            Move(forcedInput);
         }
 
         animationController.UpdateSprite(forcedInput);
@@ -76,11 +87,24 @@ public class PlayerMotor : MonoBehaviour
         lastMove = forcedInput;
     }
 
-    public void ProcessTurn(Vector2 input)
+    public void ProcessTapInput(Vector2 input)
     {
         Vector2 forcedInput = ForceOrthogonalMovement(input);
 
+        if (movementCooldown.IsCoolingDown)
+        {
+            return;
+        } 
+
+        if (forcedInput == lastMove)
+        {
+            Move(forcedInput);
+        }
+
         animationController.UpdateSprite(forcedInput);
+
+        lastInput = input;
+        lastMove = forcedInput;
     }
 
     private Vector2 ForceOrthogonalMovement(Vector2 input)
@@ -119,11 +143,6 @@ public class PlayerMotor : MonoBehaviour
     {
         Vector3Int gridPosition = groundTilemap.WorldToCell(transform.position + (Vector3)direction);
 
-        if (!groundTilemap.HasTile(gridPosition) || collisionTilemap.HasTile(gridPosition))
-        {
-            return false;
-        }
-
-        return true;
+        return !(!groundTilemap.HasTile(gridPosition) || collisionTilemap.HasTile(gridPosition));
     }
 }
