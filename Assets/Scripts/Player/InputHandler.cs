@@ -29,6 +29,9 @@ public class InputHandler : MonoBehaviour
                 moveHeld = true;
             }
         };
+
+        playerControls.OnFoot.Sprint.started += ctx => motor.IsSprinting = true;
+        playerControls.OnFoot.Sprint.canceled += ctx => motor.IsSprinting = false;
     }
 
     private void Update()

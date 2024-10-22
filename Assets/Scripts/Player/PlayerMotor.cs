@@ -9,7 +9,10 @@ using UnityEngine.Windows;
 
 public class PlayerMotor : MonoBehaviour
 {
-    [SerializeField]
+    [SerializeField] private float defaultMoveSpeed;
+    [SerializeField] private float defaultSprintSpeed;
+    public bool IsSprinting;
+
     private float moveSpeed;
 
     private Cooldown movementCooldown;
@@ -32,6 +35,8 @@ public class PlayerMotor : MonoBehaviour
 
     private void Start()
     {
+        moveSpeed = defaultMoveSpeed;
+
         movementCooldown = new Cooldown(moveSpeed);
         animationController = GetComponent<AnimationController>();
 
@@ -50,6 +55,18 @@ public class PlayerMotor : MonoBehaviour
         {
             lerpTime = 0;
             transform.position = targetPosition;
+
+            if (IsSprinting)
+            {
+                moveSpeed = defaultSprintSpeed;
+            }
+
+            else
+            {
+                moveSpeed = defaultMoveSpeed;
+            }
+
+            movementCooldown.ChangeCooldownTime(moveSpeed);
         }
     }
 

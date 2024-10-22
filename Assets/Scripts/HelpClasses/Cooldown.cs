@@ -13,6 +13,11 @@ public class Cooldown
         this.cooldownTime = cooldownTime;
     }
 
+    public void ChangeCooldownTime(float newCooldownTime)
+    {
+        cooldownTime = newCooldownTime;
+    }
+
     public bool IsCoolingDown => Time.time < _nextFireTime;
     public void StartCooldown() => _nextFireTime = Time.time + cooldownTime;
 }
