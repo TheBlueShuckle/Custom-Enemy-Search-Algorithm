@@ -84,14 +84,14 @@ public class PlayerMotor : MonoBehaviour
 
     public void ProcessHeldInput(Vector2 input)
     {
-        Vector2 forcedInput;
-
-        forcedInput = ForceOrthogonalMovement(input);
-
         if (movementCooldown.IsCoolingDown)
         {
             return;
         }
+
+        Vector2 forcedInput;
+
+        forcedInput = ForceOrthogonalMovement(input);
 
         if (input != Vector2.zero)
         {
@@ -106,12 +106,12 @@ public class PlayerMotor : MonoBehaviour
 
     public void ProcessTapInput(Vector2 input)
     {
-        Vector2 forcedInput = ForceOrthogonalMovement(input);
-
         if (movementCooldown.IsCoolingDown)
         {
             return;
-        } 
+        }
+
+        Vector2 forcedInput = ForceOrthogonalMovement(input);
 
         if (forcedInput == lastMove)
         {

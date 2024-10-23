@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 8289790132399222186}
   - component: {fileID: 3741253173404554647}
   - component: {fileID: 5095597241384475440}
+  - component: {fileID: 3181604563971340474}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -136,9 +137,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c233a78155b45c24b860d7e2142a8b01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 0.4
-  groundTileMap: {fileID: 0}
-  collisionTileMap: {fileID: 0}
+  defaultMoveSpeed: 0.25
+  defaultSprintSpeed: 0.14
+  IsSprinting: 0
+  groundTilemap: {fileID: 0}
+  collisionTilemap: {fileID: 0}
+--- !u!114 &3181604563971340474
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5959611224726945421}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72c2f1bb6eb30af49a819ced6623782a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7810850047944621770
 GameObject:
   m_ObjectHideFlags: 0
@@ -149,6 +164,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6505839383533950225}
   - component: {fileID: 7807014497347487677}
+  - component: {fileID: 7200924342039068221}
   m_Layer: 0
   m_Name: Body
   m_TagString: Untagged
@@ -212,7 +228,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
+  m_Sprite: {fileID: -803681453, guid: 9015ff10faec6014da2cbe479125d1ec, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -223,6 +239,27 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!95 &7200924342039068221
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7810850047944621770}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: cf674e48ed0ddb94888bfbfdd61dd5f1, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &9183801590995454209
 GameObject:
   m_ObjectHideFlags: 0
@@ -291,7 +328,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 5.5
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
