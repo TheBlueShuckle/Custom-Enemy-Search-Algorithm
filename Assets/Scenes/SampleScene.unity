@@ -203,7 +203,7 @@ TilemapRenderer:
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
   m_MaxChunkCount: 16
   m_MaxFrameAge: 16
-  m_SortOrder: 0
+  m_SortOrder: 2
   m_Mode: 0
   m_DetectChunkCullingBounds: 0
   m_MaskInteraction: 0
@@ -4032,11 +4032,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 6776249169008327125, guid: 2eed62ad714a71344b49011487c9e5f3, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 9.5
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 6776249169008327125, guid: 2eed62ad714a71344b49011487c9e5f3, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 7.5
+      value: 5.5
       objectReference: {fileID: 0}
     - target: {fileID: 6776249169008327125, guid: 2eed62ad714a71344b49011487c9e5f3, type: 3}
       propertyPath: m_LocalPosition.z
@@ -4150,6 +4150,7 @@ MonoBehaviour:
   target: {fileID: 5686302484661419276}
   groundTilemap: {fileID: 664141251}
   collisionTilemap: {fileID: 1996958610}
+  aStarGrid: {fileID: 1742438153}
 --- !u!1 &1742438152
 GameObject:
   m_ObjectHideFlags: 0
@@ -4179,9 +4180,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5cb646dc55d3ea048858c53d0f9dc134, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  size: {x: 0, y: 0}
-  groundTilemap: {fileID: 0}
-  collisionTilemap: {fileID: 0}
+  size: {x: 20, y: 20}
+  groundTilemap: {fileID: 664141251}
+  collisionTilemap: {fileID: 1996958610}
 --- !u!4 &1742438154
 Transform:
   m_ObjectHideFlags: 0

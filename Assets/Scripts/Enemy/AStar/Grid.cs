@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using UnityEngine.UIElements;
 
 public class Grid : MonoBehaviour
 {
@@ -19,28 +20,49 @@ public class Grid : MonoBehaviour
         Gizmos.DrawWireCube(transform.position, (Vector2)size);
     }
 
-    private void Awake()
+    private void Start()
     {
-        
+        map = ConvertTilesToNodes();
+
+        foreach (Node node in map)
+        {
+            print(node.Position.x + ", " + node.Position.y + ". " + node.IsTraversable);
+        }
     }
 
     private Node[,] ConvertTilesToNodes()
     {
-        Node[,] nodes = new Node[size.x, size.y];
         xOffset = groundTilemap.cellBounds.xMin;
         yOffset = groundTilemap.cellBounds.yMin;
 
+        Node[,] nodes = new Node[groundTilemap.cellBounds.xMax - xOffset, groundTilemap.cellBounds.yMax - yOffset];
 
-        for (int y = 0; y < groundTilemap.cellBounds.y - yOffset; y++)
+        for (int y = 0; y < groundTilemap.cellBounds.yMax - yOffset; y++)
         {
-            for (int x = 0; x < groundTilemap.cellBounds.x - xOffset; x++)
+            for (int x = 0; x < groundTilemap.cellBounds.xMax - xOffset; x++)
             {
-                nodes[x, y] = new Node(null, new Vector2Int(x, y), true);
+                bool isTraversable = !collisionTilemap.HasTile(new Vector3Int(groundTilemap.cellBounds.x, groundTilemap.cellBounds.x, 0)) || !groundTilemap.HasTile(new Vector3Int(groundTilemap.cellBounds.x, groundTilemap.cellBounds.x, 0));
+                nodes[x, y] = new Node(null, new Vector2Int(x, y), isTraversable);
             }
         }
+
+        return nodes;
     }
 
-    private Vector2Int ConvertNodeIndexToVector2Int(Node node)
+    public Vector2Int ConvertWorldToGrid(Vector2Int position)
+    {
+        Vector2Int newPosition = Vector2Int.zero;
+
+        xOffset = groundTilemap.cellBounds.xMin;
+        yOffset = groundTilemap.cellBounds.yMin;
+
+        newPosition.x = position.x - xOffset;
+        newPosition.y = position.y - yOffset;
+
+        return newPosition;
+    }
+
+    public Vector2Int ConvertNodeIndexToWorldPosition(Node node)
     {
         return new Vector2Int(node.Position.x + xOffset, node.Position.y + yOffset);
     }
