@@ -1,5 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Xml;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -23,11 +27,6 @@ public class Grid : MonoBehaviour
     private void Start()
     {
         map = ConvertTilesToNodes();
-
-        foreach (Node node in map)
-        {
-            print(node.Position.x + ", " + node.Position.y + ". " + node.IsTraversable);
-        }
     }
 
     private Node[,] ConvertTilesToNodes()
@@ -41,10 +40,26 @@ public class Grid : MonoBehaviour
         {
             for (int x = 0; x < groundTilemap.cellBounds.xMax - xOffset; x++)
             {
-                bool isTraversable = !collisionTilemap.HasTile(new Vector3Int(groundTilemap.cellBounds.x, groundTilemap.cellBounds.x, 0)) || !groundTilemap.HasTile(new Vector3Int(groundTilemap.cellBounds.x, groundTilemap.cellBounds.x, 0));
+                bool isTraversable = groundTilemap.HasTile(new Vector3Int(x + xOffset, y + yOffset, 0)) && !collisionTilemap.HasTile(new Vector3Int(x + xOffset, y + yOffset, 0));
                 nodes[x, y] = new Node(null, new Vector2Int(x, y), isTraversable);
             }
         }
+
+        // Testing (Prints the tilemap)
+        string message = "";
+
+        for (int y = 0; y < nodes.GetLength(1); y++)
+        {
+            for (int x = 0; x < nodes.GetLength(0); x++)
+            {
+                message += (nodes[x, y].IsTraversable ? 'O' : '\u25A0') + " ";
+            }
+
+            message += '\n';
+        }
+
+        Debug.Log(message);
+        // End of test
 
         return nodes;
     }
