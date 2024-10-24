@@ -5,30 +5,23 @@ using UnityEngine;
 
 public class Node
 {
-    public int X { get; private set; }
-    public int Y { get; private set; }
+    public Vector2Int Position;
     public bool IsTraversable { get; set; }
     public Node Parent { get; set; }
     public int FCost { get; private set; }
 
-    public Node(Node parent, int x, int y, bool isTraversable)
+    public Node(Node parent, Vector2Int position, bool isTraversable)
     {
-        X = x;
-        Y = y;
+        Position = position;
         Parent = parent;
         IsTraversable = isTraversable;
-    }
-
-    public int[] GetPosition()
-    {
-        return new int[] { X, Y }; // Replace with vector2d in unity
     }
 
     public void EvaluateCost(Node goal)
     {
         int gCost = GetGCost(this);
-        int x = X - goal.X;
-        int y = Y - goal.Y;
+        int x = (int)(Position.x - goal.Position.x);
+        int y = (int)(Position.y - goal.Position.y);
         int hCost = (int)Math.Floor(Math.Sqrt(x * x + y * y)); // get euclidian distance to goal
 
         FCost = gCost + hCost;

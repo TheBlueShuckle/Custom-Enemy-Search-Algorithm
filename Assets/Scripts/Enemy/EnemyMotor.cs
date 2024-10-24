@@ -8,11 +8,10 @@ using UnityEngine.Tilemaps;
 
 public class EnemyMotor : MonoBehaviour
 {
-    [SerializeField] 
-    private Transform target;
+    [SerializeField] private Transform target;
 
-    private Tilemap groundTilemap;
-    private Tilemap collisionTilemap;
+    [SerializeField] private Tilemap groundTilemap;
+    [SerializeField] private Tilemap collisionTilemap;
 
     Vector2 lastTargetPosition;
     private AStar aStar;
@@ -37,7 +36,7 @@ public class EnemyMotor : MonoBehaviour
 
     private Node[,] ConvertTilemapToAstarMap(Tilemap ground, Tilemap obstacles)
     {
-
+        return null;
     }
 
     private Node[] GetPath()
@@ -45,7 +44,7 @@ public class EnemyMotor : MonoBehaviour
         Vector3Int start = groundTilemap.WorldToCell(transform.position);
         Vector3Int goal = groundTilemap.WorldToCell(target.position);
 
-        aStar = new AStar(map, new Node(null, start.x, start.y, true), new Node(null, goal.x, goal.y, true));
+        aStar = new AStar(map, new Node(null, (Vector2Int)start, true), new Node(null, (Vector2Int)goal, true));
         return aStar.Path;
     }
 }

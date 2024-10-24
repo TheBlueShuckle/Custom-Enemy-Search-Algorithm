@@ -29,14 +29,14 @@ public class AStar
             open.Remove(current);
             close.Add(current);
 
-            if (current.GetPosition()[0] == goal.GetPosition()[0] && current.GetPosition()[1] == goal.GetPosition()[1])
+            if (current.Position.x == goal.Position.x && current.Position.y == goal.Position.y)
             {
                 break;
             }
 
             foreach (Node neighbor in FindNeighbors(map, current))
             {
-                if (!map[neighbor.X, neighbor.Y].IsTraversable || close.Contains(neighbor))
+                if (!map[neighbor.Position.x, neighbor.Position.y].IsTraversable || close.Contains(neighbor))
                 {
                     continue;
                 }
@@ -59,7 +59,7 @@ public class AStar
             }
         }
 
-        if (current.GetPosition()[0] == goal.GetPosition()[0] && current.GetPosition()[1] == goal.GetPosition()[1])
+        if (current.Position.x == goal.Position.x && current.Position.y == goal.Position.y)
         {
             return SetPath(current);
         }
@@ -71,30 +71,30 @@ public class AStar
     {
         List<Node> neighbors = new List<Node>();
 
-        if (map.GetLength(0) - 1 != node.X)
+        if (map.GetLength(0) - 1 != node.Position.x)
         {
-            neighbors.Add(map[node.X + 1, node.Y]);
+            neighbors.Add(map[node.Position.x + 1, node.Position.y]);
         }
 
-        if (node.X != 0)
+        if (node.Position.x != 0)
         {
-            neighbors.Add(map[node.X - 1, node.Y]);
+            neighbors.Add(map[node.Position.x - 1, node.Position.y]);
         }
 
-        if (map.GetLength(1) - 1 != node.Y)
+        if (map.GetLength(1) - 1 != node.Position.y)
         {
-            neighbors.Add(map[node.X, node.Y + 1]);
+            neighbors.Add(map[node.Position.x, node.Position.y + 1]);
         }
 
-        if (node.Y != 0)
+        if (node.Position.y != 0)
         {
-            neighbors.Add(map[node.X, node.Y - 1]);
+            neighbors.Add(map[node.Position.x, node.Position.y - 1]);
         }
 
         // Remove non-traversable neighbors
         foreach (Node neighbor in neighbors.ToList())
         {
-            if (!map[neighbor.X, neighbor.Y].IsTraversable)
+            if (!map[neighbor.Position.x, neighbor.Position.y].IsTraversable)
             {
                 neighbors.Remove(neighbor);
             }
