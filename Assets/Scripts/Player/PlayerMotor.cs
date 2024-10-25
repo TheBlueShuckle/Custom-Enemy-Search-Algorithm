@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEngine.UIElements.Experimental;
@@ -31,7 +32,6 @@ public class PlayerMotor : MonoBehaviour
 
     private Vector2 targetPosition;
     private Vector2 startPosition;
-    private float lerpTime = 0;
 
     private void Start()
     {
@@ -45,29 +45,33 @@ public class PlayerMotor : MonoBehaviour
 
     private void Update()
     {
+        if (transform.position != (Vector3)targetPosition)
+        {
+            transform.position = targetPosition;
+        }
+
         if (movementCooldown.IsCoolingDown)
         {
-            transform.position = Vector2.Lerp(startPosition, targetPosition, lerpTime / moveSpeed);
-            lerpTime += Time.deltaTime;
+            animationController.LerpSprite(startPosition, targetPosition, moveSpeed);
         }
 
         else
         {
-            lerpTime = 0;
-            transform.position = targetPosition;
-
-            if (IsSprinting)
-            {
-                moveSpeed = defaultSprintSpeed;
-            }
-
-            else
-            {
-                moveSpeed = defaultMoveSpeed;
-            }
+            moveSpeed = UpdateMoveSpeed();
 
             movementCooldown.ChangeCooldownTime(moveSpeed);
+            animationController.ResetLerp();
         }
+    }
+
+    private float UpdateMoveSpeed()
+    {
+        if (IsSprinting)
+        {
+            return defaultSprintSpeed;
+        }
+
+        return defaultMoveSpeed;
     }
 
     private void Move(Vector2 forcedInput)

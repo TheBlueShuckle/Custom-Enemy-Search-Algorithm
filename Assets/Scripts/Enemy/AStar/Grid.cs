@@ -26,14 +26,14 @@ public class Grid : MonoBehaviour
 
     private void Start()
     {
+        xOffset = groundTilemap.cellBounds.xMin;
+        yOffset = groundTilemap.cellBounds.yMin;
+
         map = ConvertTilesToNodes();
     }
 
     private Node[,] ConvertTilesToNodes()
     {
-        xOffset = groundTilemap.cellBounds.xMin;
-        yOffset = groundTilemap.cellBounds.yMin;
-
         Node[,] nodes = new Node[groundTilemap.cellBounds.xMax - xOffset, groundTilemap.cellBounds.yMax - yOffset];
 
         for (int y = 0; y < groundTilemap.cellBounds.yMax - yOffset; y++)
@@ -45,7 +45,7 @@ public class Grid : MonoBehaviour
             }
         }
 
-        // Testing (Prints the tilemap)
+        #region Test
         string message = "";
 
         for (int y = 0; y < nodes.GetLength(1); y++)
@@ -59,7 +59,7 @@ public class Grid : MonoBehaviour
         }
 
         Debug.Log(message);
-        // End of test
+        #endregion
 
         return nodes;
     }
@@ -67,9 +67,6 @@ public class Grid : MonoBehaviour
     public Vector2Int ConvertWorldToGrid(Vector2Int position)
     {
         Vector2Int newPosition = Vector2Int.zero;
-
-        xOffset = groundTilemap.cellBounds.xMin;
-        yOffset = groundTilemap.cellBounds.yMin;
 
         newPosition.x = position.x - xOffset;
         newPosition.y = position.y - yOffset;

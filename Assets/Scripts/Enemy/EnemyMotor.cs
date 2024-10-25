@@ -32,19 +32,35 @@ public class EnemyMotor : MonoBehaviour
     {
         if ((Vector2)target.position != lastTargetPosition)
         {
+            print("Finding new path");
             lastTargetPosition = target.position;
 
-            path = GetPath().Reverse().ToArray();
+            path = FindNewPath();
         }
 
         if (!movementCooldown.IsCoolingDown && (path != null || path.Count() > 0))
         {
-            Vector2Int tilePosition = aStarGrid.ConvertNodeIndexToWorldPosition(path[0]);
-            transform.position = new Vector3(tilePosition.x + 0.5f, tilePosition.y + 0.5f, 0);
-
-            path = path.Skip(1).ToArray();
-            movementCooldown.StartCooldown();
+            print("First move is " + path[0].Position.x + ", " + path[0].Position.y);
+            print("Moving to target at " + path.Last().Position.x + ", " + path.Last().Position.y);
+            MoveToTarget();
         }
+    }
+
+
+    private Node[] FindNewPath()
+    {
+        return GetPath();
+    }
+
+    private void MoveToTarget()
+    {
+        float positionOffset = 0.5f;
+
+        Vector2Int tilePosition = aStarGrid.ConvertNodeIndexToWorldPosition(path[0]);
+        transform.position = new Vector3(tilePosition.x + positionOffset, tilePosition.y + positionOffset, 0);
+
+        path = path.Skip(1).ToArray();
+        movementCooldown.StartCooldown();
     }
 
     private Node[] GetPath()

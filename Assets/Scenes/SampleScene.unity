@@ -4022,6 +4022,11 @@ Transform:
   - {fileID: 1996958608}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1212477417 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7810850047944621770, guid: d72c302df2acd594fa738c1dd3298c38, type: 3}
+  m_PrefabInstance: {fileID: 5686302484661419275}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1354004453
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5577,6 +5582,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3181604563971340474, guid: d72c302df2acd594fa738c1dd3298c38, type: 3}
+      propertyPath: sprite
+      value: 
+      objectReference: {fileID: 1212477417}
     - target: {fileID: 5095597241384475440, guid: d72c302df2acd594fa738c1dd3298c38, type: 3}
       propertyPath: groundTilemap
       value: 

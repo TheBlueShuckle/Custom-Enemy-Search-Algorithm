@@ -28,13 +28,13 @@ public class AStar
             open = open.OrderBy(n => n.FCost).ToList();
             current = open[0];
 
-            open.Remove(current);
-            close.Add(current);
-
             if (current.Position.x == goal.Position.x && current.Position.y == goal.Position.y)
             {
                 break;
             }
+
+            open.Remove(current);
+            close.Add(current);
 
             foreach (Node neighbor in FindNeighbors(map, current))
             {
@@ -43,27 +43,26 @@ public class AStar
                     continue;
                 }
 
-                if (neighbor.Parent == null)
+                neighbor.Parent ??= current;
+
+                if (!(neighbor.GetGCost(neighbor) < current.GetGCost(current) || !open.Contains(neighbor)))
                 {
-                    neighbor.Parent = current;
+                    continue;
                 }
 
-                if (neighbor.GetGCost(neighbor) < current.GetGCost(current) || !open.Contains(neighbor))
-                {
-                    neighbor.EvaluateCost(goal);
-                    neighbor.Parent = current;
+                neighbor.EvaluateCost(goal);
+                neighbor.Parent = current;
 
-                    if (!open.Contains(neighbor))
-                    {
-                        open.Add(neighbor);
-                    }
+                if (!open.Contains(neighbor))
+                {
+                    open.Add(neighbor);
                 }
             }
         }
 
         if (current.Position.x == goal.Position.x && current.Position.y == goal.Position.y)
         {
-            return SetPath(current);
+            return SetPath(current).Reverse().Skip(1).ToArray();
         }
 
         return null;
@@ -107,9 +106,10 @@ public class AStar
 
     private Node[] SetPath(Node current)
     {
-        List<Node> path = new List<Node>();
-
-        path.Add(current);
+        List<Node> path = new List<Node>()
+        {
+            current
+        };
 
         if (current.Parent != null)
         {
