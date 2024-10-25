@@ -45,21 +45,21 @@ public class Grid : MonoBehaviour
             }
         }
 
-        #region Test
-        string message = "";
+        //#region Test
+        //string message = "";
 
-        for (int y = 0; y < nodes.GetLength(1); y++)
-        {
-            for (int x = 0; x < nodes.GetLength(0); x++)
-            {
-                message += (nodes[x, y].IsTraversable ? 'O' : '\u25A0') + " ";
-            }
+        //for (int y = 0; y < nodes.GetLength(1); y++)
+        //{
+        //    for (int x = 0; x < nodes.GetLength(0); x++)
+        //    {
+        //        message += (nodes[x, y].IsTraversable ? 'O' : '\u25A0') + " ";
+        //    }
 
-            message += '\n';
-        }
+        //    message += '\n';
+        //}
 
-        Debug.Log(message);
-        #endregion
+        //Debug.Log(message);
+        //#endregion
 
         return nodes;
     }

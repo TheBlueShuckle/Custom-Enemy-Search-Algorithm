@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Serialization;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
@@ -15,6 +16,9 @@ public class EnemyMotor : MonoBehaviour
     [SerializeField] private Tilemap collisionTilemap;
 
     [SerializeField] private Grid aStarGrid;
+    [SerializeField] private float moveSpeed;
+
+    private AnimationController animationController;
 
     Vector2 lastTargetPosition;
     private AStar aStar;
@@ -23,16 +27,19 @@ public class EnemyMotor : MonoBehaviour
 
     Cooldown movementCooldown;
 
+    private Vector2 targetPosition;
+    private Vector2 startPosition;
+
     private void Awake()
     {
-        movementCooldown = new Cooldown(1);
+        movementCooldown = new Cooldown(moveSpeed);
+        animationController = GetComponent<AnimationController>();
     }
 
     private void Update()
     {
         if ((Vector2)target.position != lastTargetPosition)
         {
-            print("Finding new path");
             lastTargetPosition = target.position;
 
             path = FindNewPath();
@@ -40,9 +47,13 @@ public class EnemyMotor : MonoBehaviour
 
         if (!movementCooldown.IsCoolingDown && (path != null || path.Count() > 0))
         {
-            print("First move is " + path[0].Position.x + ", " + path[0].Position.y);
-            print("Moving to target at " + path.Last().Position.x + ", " + path.Last().Position.y);
+            animationController.ResetLerp();
             MoveToTarget();
+        }
+
+        if (movementCooldown.IsCoolingDown)
+        {
+            animationController.LerpSprite(startPosition, targetPosition, moveSpeed);
         }
     }
 
@@ -54,10 +65,13 @@ public class EnemyMotor : MonoBehaviour
 
     private void MoveToTarget()
     {
+        startPosition = transform.position;
         float positionOffset = 0.5f;
 
         Vector2Int tilePosition = aStarGrid.ConvertNodeIndexToWorldPosition(path[0]);
         transform.position = new Vector3(tilePosition.x + positionOffset, tilePosition.y + positionOffset, 0);
+
+        targetPosition = transform.position;
 
         path = path.Skip(1).ToArray();
         movementCooldown.StartCooldown();

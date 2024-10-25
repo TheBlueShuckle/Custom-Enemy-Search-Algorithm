@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 8289790132399222186}
   - component: {fileID: 3741253173404554647}
   - component: {fileID: 5095597241384475440}
-  - component: {fileID: 3181604563971340474}
+  - component: {fileID: 4401661495357892633}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -141,7 +141,7 @@ MonoBehaviour:
   IsSprinting: 0
   groundTilemap: {fileID: 0}
   collisionTilemap: {fileID: 0}
---- !u!114 &3181604563971340474
+--- !u!114 &4401661495357892633
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -150,10 +150,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 5959611224726945421}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 72c2f1bb6eb30af49a819ced6623782a, type: 3}
+  m_Script: {fileID: 11500000, guid: b48ea2cb0690c1245ba76b2ce694029c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sprite: {fileID: 0}
+  sprite: {fileID: 7810850047944621770}
 --- !u!1 &7810850047944621770
 GameObject:
   m_ObjectHideFlags: 0
